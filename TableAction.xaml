@@ -1,0 +1,621 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="TableAction" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property sap2010:Annotation.AnnotationText="AcmeBrowser given to work on the work items table" Name="AcmeBrowserTab" Type="InArgument(ui:Browser)">
+      <x:Property.Attributes>
+        <RequiredArgumentAttribute />
+      </x:Property.Attributes>
+    </x:Property>
+    <x:Property sap2010:Annotation.AnnotationText="The table row number of the block to do action" Name="TableRow" Type="InArgument(x:Int32)">
+      <x:Property.Attributes>
+        <RequiredArgumentAttribute />
+      </x:Property.Attributes>
+    </x:Property>
+    <x:Property sap2010:Annotation.AnnotationText="The table column name of the block to do action" Name="TableColumn" Type="InArgument(x:String)">
+      <x:Property.Attributes>
+        <RequiredArgumentAttribute />
+      </x:Property.Attributes>
+    </x:Property>
+    <x:Property sap2010:Annotation.AnnotationText="The name of the button to click on (search/trash)" Name="ButtonName" Type="InArgument(x:String)" />
+    <x:Property sap2010:Annotation.AnnotationText="The action given to do on the selected table data (Click/ Getdata)" Name="Action" Type="InArgument(x:String)">
+      <x:Property.Attributes>
+        <RequiredArgumentAttribute />
+      </x:Property.Attributes>
+    </x:Property>
+    <x:Property sap2010:Annotation.AnnotationText="The extracted data from the work items table" Name="GetData" Type="OutArgument(x:String)" />
+  </x:Members>
+  <mva:VisualBasic.Settings>
+    <x:Null />
+  </mva:VisualBasic.Settings>
+  <sap:VirtualizedContainerService.HintSize>2092,4927</sap:VirtualizedContainerService.HintSize>
+  <sap2010:WorkflowViewState.IdRef>TableAction_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <scg:List x:TypeArguments="x:String" Capacity="28">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Runtime.InteropServices</x:String>
+      <x:String>System.Reflection</x:String>
+      <x:String>System.Activities.DynamicUpdate</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>UiPath.UIAutomationCore.Contracts</x:String>
+      <x:String>UiPath.UIAutomationNext.Enums</x:String>
+    </scg:List>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="28">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities.Design</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>Microsoft.Bcl.AsyncInterfaces</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>NPOI</AssemblyReference>
+      <AssemblyReference>System.Reflection.Metadata</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationCore</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationNext</AssemblyReference>
+      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
+    </scg:List>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence sap2010:Annotation.AnnotationText="Performs the given action on the work items table in the ACME website" DisplayName="TableAction" sap:VirtualizedContainerService.HintSize="2102,4862" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+        <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="2060,93" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Info" Message="[&quot;TableAction module has started&quot;]" />
+    <TryCatch sap2010:Annotation.AnnotationText="Overall Try Catch for TableAction module" DisplayName="Overall Try Catch" sap:VirtualizedContainerService.HintSize="2060,4473" sap2010:WorkflowViewState.IdRef="TryCatch_1">
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+      <TryCatch.Try>
+        <Sequence sap2010:Annotation.AnnotationText="Perfoming the given actions on the work items table" DisplayName="Performing Action On Table" sap:VirtualizedContainerService.HintSize="2022,4187" sap2010:WorkflowViewState.IdRef="Sequence_2">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <If sap2010:Annotation.AnnotationText="Checking if the given input is valid and continuing, else throwing exception" Condition="[IsNothing(AcmeBrowserTab) Or TableRow &lt; 1 Or String.IsNullOrWhiteSpace(Action) Or String.IsNullOrWhiteSpace(TableColumn)]" DisplayName="If Given Input Is Valid" sap:VirtualizedContainerService.HintSize="1980,469" sap2010:WorkflowViewState.IdRef="If_1">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <If.Then>
+              <Sequence sap2010:Annotation.AnnotationText="Throws an exception if the given input is not valid" DisplayName="Throwing Exception" sap:VirtualizedContainerService.HintSize="376,278" sap2010:WorkflowViewState.IdRef="Sequence_3">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,93" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Error" Message="[&quot;The Given Input in the TableAction module is not valid&quot;]" />
+                <Throw DisplayName="Throw Business Exception" Exception="[new BusinessRuleException(&quot;The Given Input in the TableAction module is not valid&quot;)]" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="Throw_1" />
+              </Sequence>
+            </If.Then>
+            <If.Else>
+              <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_4" Level="Trace" Message="[&quot;The Given Input in the TableAction module is valid&quot;]" />
+            </If.Else>
+          </If>
+          <TryCatch sap2010:Annotation.AnnotationText="Performing actions on the table based on given input in the attached browser and catching if an error occurs while performing actions" DisplayName="Try Catch - Attach Browser " sap:VirtualizedContainerService.HintSize="1980,3555" sap2010:WorkflowViewState.IdRef="TryCatch_3">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <TryCatch.Try>
+              <ui:BrowserScope BrowserType="{x:Null}" SearchScope="{x:Null}" Selector="{x:Null}" TimeoutMS="{x:Null}" UiBrowser="{x:Null}" sap2010:Annotation.AnnotationText="Attaching the opened AcmeBrowserTab and performing actions on the work items table" Browser="[AcmeBrowserTab]" DisplayName="Attach AcmeBrowserTab" sap:VirtualizedContainerService.HintSize="1942,3269" sap2010:WorkflowViewState.IdRef="BrowserScope_1">
+                <ui:BrowserScope.Body>
+                  <ActivityAction x:TypeArguments="x:Object">
+                    <ActivityAction.Argument>
+                      <DelegateInArgument x:TypeArguments="x:Object" Name="ContextTarget" />
+                    </ActivityAction.Argument>
+                    <Sequence sap2010:Annotation.AnnotationText="Performing actions on the work items table on the ACME website" DisplayName="Performing Table Action" sap:VirtualizedContainerService.HintSize="1908,3130" sap2010:WorkflowViewState.IdRef="Sequence_8">
+                      <Sequence.Variables>
+                        <Variable x:TypeArguments="x:Boolean" Name="IsWorkItemsHeaderExists" />
+                      </Sequence.Variables>
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="1866,93" sap2010:WorkflowViewState.IdRef="LogMessage_5" Level="Trace" Message="[&quot;Validating the Landing page in the TableAction module&quot;]" />
+                      <ui:UiElementExists sap2010:Annotation.AnnotationText="Checking if Work Items Header element exists in the page" DisplayName="Work Items Header Exists" Exists="[IsWorkItemsHeaderExists]" sap:VirtualizedContainerService.HintSize="1866,130" sap2010:WorkflowViewState.IdRef="UiElementExists_1">
+                        <ui:UiElementExists.Target>
+                          <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="a82600a3-b0ad-4aba-a2ba-e850a0963ff0" Selector="&lt;webctrl tag='TR' innertext='*Actions*WIID*' /&gt;" WaitForReady="COMPLETE">
+                            <ui:Target.TimeoutMS>
+                              <InArgument x:TypeArguments="x:Int32" />
+                            </ui:Target.TimeoutMS>
+                          </ui:Target>
+                        </ui:UiElementExists.Target>
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                      </ui:UiElementExists>
+                      <If sap2010:Annotation.AnnotationText="Checking if the landing page is valid else throwing exception" Condition="[IsWorkItemsHeaderExists]" DisplayName="Check Landing Page" sap:VirtualizedContainerService.HintSize="1866,468" sap2010:WorkflowViewState.IdRef="If_2">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <If.Then>
+                          <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,93" sap2010:WorkflowViewState.IdRef="LogMessage_6" Level="Trace" Message="[&quot;The Landing Page in the TableAction module is valid&quot;]" />
+                        </If.Then>
+                        <If.Else>
+                          <Sequence sap2010:Annotation.AnnotationText="Throws an exception if the landing page is not valid" DisplayName="Throwing Exception" sap:VirtualizedContainerService.HintSize="376,278" sap2010:WorkflowViewState.IdRef="Sequence_4">
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                            <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,93" sap2010:WorkflowViewState.IdRef="LogMessage_7" Level="Error" Message="[&quot;The Landing Page in the TableAction module is not valid&quot;]" />
+                            <Throw DisplayName="Throw Business Exception" Exception="[new BusinessRuleException(&quot;The Landing Page in the TableAction module is not valid&quot;)]" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="Throw_2" />
+                          </Sequence>
+                        </If.Else>
+                      </If>
+                      <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="1866,93" sap2010:WorkflowViewState.IdRef="LogMessage_33" Level="Trace" Message="[&quot;Increasing the row count by 1&quot;]" />
+                      <Assign sap:VirtualizedContainerService.HintSize="1866,60" sap2010:WorkflowViewState.IdRef="Assign_1">
+                        <Assign.To>
+                          <OutArgument x:TypeArguments="x:Int32">[TableRow]</OutArgument>
+                        </Assign.To>
+                        <Assign.Value>
+                          <InArgument x:TypeArguments="x:Int32">[TableRow + 1]</InArgument>
+                        </Assign.Value>
+                      </Assign>
+                      <Switch x:TypeArguments="x:String" sap2010:Annotation.AnnotationText="Process the work items table according to the given actions,&#xA;1, click - Clicking the button based on the given button name&#xA;2, getdata - Extracts the data from the work items table&#xA;3, default - Throws exception if the given action is invalid" DisplayName="Switch Between Given Actions" Expression="[Action.ToLower.Trim]" sap:VirtualizedContainerService.HintSize="1866,1963" sap2010:WorkflowViewState.IdRef="Switch`1_1">
+                        <Switch.Default>
+                          <Sequence DisplayName="Throw Exception" sap:VirtualizedContainerService.HintSize="376,245" sap2010:WorkflowViewState.IdRef="Sequence_13">
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                            <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_17" Level="Error" Message="[&quot;The given action is invalid in the TableAction module&quot;]" />
+                            <Throw DisplayName="Throw Business Exception" Exception="[new BusinessRuleException(&quot;The given action is invalid in the TableAction module&quot;)]" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="Throw_7" />
+                          </Sequence>
+                        </Switch.Default>
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <Sequence x:Key="click" sap2010:Annotation.AnnotationText="Clicking on the action button based on the choice of action and validating the exit page" DisplayName="Clicking The Action Button And Validating Exit Page" sap:VirtualizedContainerService.HintSize="1826,1678" sap2010:WorkflowViewState.IdRef="Sequence_19">
+                          <Sequence.Variables>
+                            <Variable x:TypeArguments="x:Boolean" Name="IsUpdateWorkItemExists" />
+                          </Sequence.Variables>
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                              <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                          <TryCatch sap2010:Annotation.AnnotationText="Clicks the actions button based on the given action and catches if an error occurs while clicking action button" DisplayName="Try Catch - Click Actions Button" sap:VirtualizedContainerService.HintSize="1784,617" sap2010:WorkflowViewState.IdRef="TryCatch_2">
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                            <TryCatch.Try>
+                              <Sequence DisplayName="Clicking Actions Button" sap:VirtualizedContainerService.HintSize="376,342" sap2010:WorkflowViewState.IdRef="Sequence_5">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                                <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,93" sap2010:WorkflowViewState.IdRef="LogMessage_8" Level="Trace" Message="[&quot;Clicking the actions button based on the given action&quot;]" />
+                                <ui:Click AlterIfDisabled="{x:Null}" DelayBefore="{x:Null}" DelayMS="{x:Null}" SendWindowMessages="{x:Null}" sap2010:Annotation.AnnotationText="Clicks the actions button based on the given action" ClickType="CLICK_SINGLE" DisplayName="Click Actions Button" sap:VirtualizedContainerService.HintSize="334,117" sap2010:WorkflowViewState.IdRef="Click_1" KeyModifiers="None" MouseButton="BTN_LEFT" SimulateClick="True">
+                                  <ui:Click.CursorPosition>
+                                    <ui:CursorPosition Position="Center">
+                                      <ui:CursorPosition.OffsetX>
+                                        <InArgument x:TypeArguments="x:Int32" />
+                                      </ui:CursorPosition.OffsetX>
+                                      <ui:CursorPosition.OffsetY>
+                                        <InArgument x:TypeArguments="x:Int32" />
+                                      </ui:CursorPosition.OffsetY>
+                                    </ui:CursorPosition>
+                                  </ui:Click.CursorPosition>
+                                  <ui:Click.Target>
+                                    <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="e638465f-3531-49cf-8bc1-3e72c9c0d782" Selector="[String.Format(&quot;&lt;webctrl tag='TABLE' /&gt;&lt;webctrl tableRow='{0}' tag='I' class='*{1}' colName='{2}' /&gt;&quot;, TableRow, ButtonName, TableColumn)]" WaitForReady="COMPLETE">
+                                      <ui:Target.TimeoutMS>
+                                        <InArgument x:TypeArguments="x:Int32" />
+                                      </ui:Target.TimeoutMS>
+                                    </ui:Target>
+                                  </ui:Click.Target>
+                                  <sap:WorkflowViewStateService.ViewState>
+                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                      <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                    </scg:Dictionary>
+                                  </sap:WorkflowViewStateService.ViewState>
+                                </ui:Click>
+                              </Sequence>
+                            </TryCatch.Try>
+                            <TryCatch.Catches>
+                              <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="404,21" sap2010:WorkflowViewState.IdRef="Catch`1_1">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                                <ActivityAction x:TypeArguments="s:Exception">
+                                  <ActivityAction.Argument>
+                                    <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+                                  </ActivityAction.Argument>
+                                  <Sequence sap2010:Annotation.AnnotationText="Throws an exception if the clicking was not successful" DisplayName="Throwing Exception" sap:VirtualizedContainerService.HintSize="376,308" sap2010:WorkflowViewState.IdRef="Sequence_6">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                        <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_9" Level="Error" Message="[&quot;Cannot click the logout button in the website&quot;]" />
+                                    <Throw DisplayName="Throw Business Exception" Exception="[New BusinessRuleException(&quot;Cannot click the logout button in the TableAction module&quot;)]" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="Throw_3" />
+                                  </Sequence>
+                                </ActivityAction>
+                              </Catch>
+                            </TryCatch.Catches>
+                          </TryCatch>
+                          <Pick sap2010:Annotation.AnnotationText="Picking the exit page validation based on the button name after clicking the action button" DisplayName="Pick Exit Page Validation" sap:VirtualizedContainerService.HintSize="1784,898" sap2010:WorkflowViewState.IdRef="Pick_1">
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                            <PickBranch sap2010:Annotation.AnnotationText="If the Update Work Item Button appears, the exit page is validated" DisplayName="Pick Update Work Item Exist Branch" sap:VirtualizedContainerService.HintSize="805,821" sap2010:WorkflowViewState.IdRef="PickBranch_1">
+                              <sap:WorkflowViewStateService.ViewState>
+                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                  <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                </scg:Dictionary>
+                              </sap:WorkflowViewStateService.ViewState>
+                              <PickBranch.Trigger>
+                                <ui:UiElementExists sap2010:Annotation.AnnotationText="Checking if Update Work Items element exists in the page" DisplayName="Update Work Item Exists" Exists="[IsUpdateWorkItemExists]" sap:VirtualizedContainerService.HintSize="334,128" sap2010:WorkflowViewState.IdRef="UiElementExists_7">
+                                  <ui:UiElementExists.Target>
+                                    <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="a82600a3-b0ad-4aba-a2ba-e850a0963ff0" Selector="&lt;webctrl aaname=' Update Work Item' tag='BUTTON' /&gt;" WaitForReady="COMPLETE">
+                                      <ui:Target.TimeoutMS>
+                                        <InArgument x:TypeArguments="x:Int32" />
+                                      </ui:Target.TimeoutMS>
+                                    </ui:Target>
+                                  </ui:UiElementExists.Target>
+                                  <sap:WorkflowViewStateService.ViewState>
+                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                      <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                    </scg:Dictionary>
+                                  </sap:WorkflowViewStateService.ViewState>
+                                </ui:UiElementExists>
+                              </PickBranch.Trigger>
+                              <If sap2010:Annotation.AnnotationText="Checking if the exit page is valid else throwing exception" Condition="[IsUpdateWorkItemExists]" DisplayName="Check Exit Page" sap:VirtualizedContainerService.HintSize="755,464" sap2010:WorkflowViewState.IdRef="If_8">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                                <If.Then>
+                                  <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_29" Level="Trace" Message="[&quot;The Exit Page in the TableAction module is valid for clicking search button&quot;]" />
+                                </If.Then>
+                                <If.Else>
+                                  <Sequence sap2010:Annotation.AnnotationText="Throws an exception if the exit page is not valid" DisplayName="Throwing Exception" sap:VirtualizedContainerService.HintSize="376,276" sap2010:WorkflowViewState.IdRef="Sequence_22">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                        <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_30" Level="Error" Message="[&quot;The Exit Page in the TableAction module is not valid for clicking action button&quot;]" />
+                                    <Throw DisplayName="Throw Business Exception" Exception="[new BusinessRuleException(&quot;The Exit Page in the TableAction module is not valid for clicking action button&quot;)]" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="Throw_13" />
+                                  </Sequence>
+                                </If.Else>
+                              </If>
+                            </PickBranch>
+                            <PickBranch sap2010:Annotation.AnnotationText="If the access denied element appears, it throws an exception" DisplayName="Pick Access Denied Exist Branch" sap:VirtualizedContainerService.HintSize="805,821" sap2010:WorkflowViewState.IdRef="PickBranch_2">
+                              <PickBranch.Variables>
+                                <Variable x:TypeArguments="x:Boolean" Name="IsAccessDeniedExists" />
+                              </PickBranch.Variables>
+                              <sap:WorkflowViewStateService.ViewState>
+                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                  <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                </scg:Dictionary>
+                              </sap:WorkflowViewStateService.ViewState>
+                              <PickBranch.Trigger>
+                                <ui:UiElementExists sap2010:Annotation.AnnotationText="Checking if access denied element exists in the page" DisplayName="Access Denied Exists" Exists="[IsAccessDeniedExists]" sap:VirtualizedContainerService.HintSize="334,117" sap2010:WorkflowViewState.IdRef="UiElementExists_6">
+                                  <ui:UiElementExists.Target>
+                                    <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="a82600a3-b0ad-4aba-a2ba-e850a0963ff0" Selector="&lt;html app='chrome.exe' title='Forbidden' /&gt;&lt;webctrl tag='DIV' aaname='*Access denied*' /&gt;" WaitForReady="COMPLETE">
+                                      <ui:Target.TimeoutMS>
+                                        <InArgument x:TypeArguments="x:Int32" />
+                                      </ui:Target.TimeoutMS>
+                                    </ui:Target>
+                                  </ui:UiElementExists.Target>
+                                  <sap:WorkflowViewStateService.ViewState>
+                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                      <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                    </scg:Dictionary>
+                                  </sap:WorkflowViewStateService.ViewState>
+                                </ui:UiElementExists>
+                              </PickBranch.Trigger>
+                              <If sap2010:Annotation.AnnotationText="Checking if the exit page is valid else throwing exception" Condition="[IsAccessDeniedExists]" DisplayName="Check Exit Page" sap:VirtualizedContainerService.HintSize="755,464" sap2010:WorkflowViewState.IdRef="If_9">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                                <If.Then>
+                                  <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_31" Level="Trace" Message="[&quot;The Exit Page in the TableAction module is valid for clicking delete button&quot;]" />
+                                </If.Then>
+                                <If.Else>
+                                  <Sequence sap2010:Annotation.AnnotationText="Throws an exception if the exit page is not valid" DisplayName="Throwing Exception" sap:VirtualizedContainerService.HintSize="376,276" sap2010:WorkflowViewState.IdRef="Sequence_23">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                        <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_32" Level="Error" Message="[&quot;The Exit Page in the TableAction module is not valid for clicking action button&quot;]" />
+                                    <Throw DisplayName="Throw Business Exception" Exception="[new BusinessRuleException(&quot;The Exit Page in the TableAction module is not valid for clicking action button&quot;)]" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="Throw_14" />
+                                  </Sequence>
+                                </If.Else>
+                              </If>
+                            </PickBranch>
+                          </Pick>
+                        </Sequence>
+                        <Sequence x:Key="getdata" sap2010:Annotation.AnnotationText="Extracting the data from the Work Items table in the website and validating the exit page" DisplayName="Extracting Data From Work Items Table And Validating Exit Page" sap:VirtualizedContainerService.HintSize="797,1578" sap2010:WorkflowViewState.IdRef="Sequence_17">
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                              <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                          <TryCatch sap2010:Annotation.AnnotationText="Extracting data from the work items table based on the given row and column and catches if an error occurs while extracting data" DisplayName="Try Catch - Extract Data From Table" sap:VirtualizedContainerService.HintSize="755,626" sap2010:WorkflowViewState.IdRef="TryCatch_4">
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                            <TryCatch.Try>
+                              <Sequence DisplayName="Extracting Data From Table" sap:VirtualizedContainerService.HintSize="376,351" sap2010:WorkflowViewState.IdRef="Sequence_11">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                                <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_15" Level="Trace" Message="[&quot;Extracting data from the work items table&quot;]" />
+                                <ui:GetValue ContinueOnError="{x:Null}" sap2010:Annotation.AnnotationText="Extracts the data from the work items table in the ACME website" DisplayName="Get Data From Table" sap:VirtualizedContainerService.HintSize="334,128" sap2010:WorkflowViewState.IdRef="GetValue_1">
+                                  <ui:GetValue.Target>
+                                    <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="e5485c4e-3a40-49d4-bd1a-9a41bbafce1e" Selector="[String.Format(&quot;&lt;webctrl tableRow='{0}' tag='TD' colName='{1}' /&gt;&quot;, TableRow, TableColumn)]" WaitForReady="COMPLETE">
+                                      <ui:Target.TimeoutMS>
+                                        <InArgument x:TypeArguments="x:Int32" />
+                                      </ui:Target.TimeoutMS>
+                                    </ui:Target>
+                                  </ui:GetValue.Target>
+                                  <ui:GetValue.Value>
+                                    <OutArgument x:TypeArguments="x:String">[GetData]</OutArgument>
+                                  </ui:GetValue.Value>
+                                  <sap:WorkflowViewStateService.ViewState>
+                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                      <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                    </scg:Dictionary>
+                                  </sap:WorkflowViewStateService.ViewState>
+                                </ui:GetValue>
+                              </Sequence>
+                            </TryCatch.Try>
+                            <TryCatch.Catches>
+                              <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="404,21" sap2010:WorkflowViewState.IdRef="Catch`1_4">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                                <ActivityAction x:TypeArguments="s:Exception">
+                                  <ActivityAction.Argument>
+                                    <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+                                  </ActivityAction.Argument>
+                                  <Sequence sap2010:Annotation.AnnotationText="Throws an exception if the extracting data was not successful" DisplayName="Throwing Exception" sap:VirtualizedContainerService.HintSize="376,308" sap2010:WorkflowViewState.IdRef="Sequence_12">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                        <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_16" Level="Error" Message="[&quot;Cannot extract data from the Work Items Table in the website&quot;]" />
+                                    <Throw DisplayName="Throw Business Exception" Exception="[New BusinessRuleException(&quot;Cannot extract data from the Work Items Table in the TableAction module&quot;)]" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="Throw_6" />
+                                  </Sequence>
+                                </ActivityAction>
+                              </Catch>
+                            </TryCatch.Catches>
+                          </TryCatch>
+                          <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="755,91" sap2010:WorkflowViewState.IdRef="LogMessage_10" Level="Trace" Message="[&quot;Validating exit page in the TableAction module if extracting data&quot;]" />
+                          <ui:UiElementExists sap2010:Annotation.AnnotationText="Checking if Work Items Header element exists in the page" DisplayName="Work Items Header Exists" Exists="[IsWorkItemsHeaderExists]" sap:VirtualizedContainerService.HintSize="755,128" sap2010:WorkflowViewState.IdRef="UiElementExists_3">
+                            <ui:UiElementExists.Target>
+                              <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="a82600a3-b0ad-4aba-a2ba-e850a0963ff0" Selector="&lt;webctrl tag='TR' innertext='*Actions*WIID*' /&gt;" WaitForReady="COMPLETE">
+                                <ui:Target.TimeoutMS>
+                                  <InArgument x:TypeArguments="x:Int32" />
+                                </ui:Target.TimeoutMS>
+                              </ui:Target>
+                            </ui:UiElementExists.Target>
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                          </ui:UiElementExists>
+                          <If sap2010:Annotation.AnnotationText="Checking if the exit page is valid else throwing exception" Condition="[IsWorkItemsHeaderExists]" DisplayName="Check Exit Page" sap:VirtualizedContainerService.HintSize="755,464" sap2010:WorkflowViewState.IdRef="If_4">
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                            <If.Then>
+                              <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_20" Level="Trace" Message="[&quot;The Exit Page in the TableAction module is valid for extracting data&quot;]" />
+                            </If.Then>
+                            <If.Else>
+                              <Sequence sap2010:Annotation.AnnotationText="Throws an exception if the exit page is not valid" DisplayName="Throwing Exception" sap:VirtualizedContainerService.HintSize="376,276" sap2010:WorkflowViewState.IdRef="Sequence_16">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                                <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_21" Level="Error" Message="[&quot;The Exit Page in the TableAction module is not valid for extracting data&quot;]" />
+                                <Throw DisplayName="Throw Business Exception" Exception="[new BusinessRuleException(&quot;The Exit Page in the TableAction module is not valid for extracting data&quot;)]" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="Throw_9" />
+                              </Sequence>
+                            </If.Else>
+                          </If>
+                        </Sequence>
+                      </Switch>
+                    </Sequence>
+                  </ActivityAction>
+                </ui:BrowserScope.Body>
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+              </ui:BrowserScope>
+            </TryCatch.Try>
+            <TryCatch.Catches>
+              <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="1946,22" sap2010:WorkflowViewState.IdRef="Catch`1_2">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <ActivityAction x:TypeArguments="s:Exception">
+                  <ActivityAction.Argument>
+                    <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+                  </ActivityAction.Argument>
+                  <Sequence sap2010:Annotation.AnnotationText="Throws an exception if the attach browser process was not successful" DisplayName="Throwing Exception" sap:VirtualizedContainerService.HintSize="376,321" sap2010:WorkflowViewState.IdRef="Sequence_9">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_13" Level="Error" Message="[&quot;Attach browser process in the TableAction module has failed&quot;]" />
+                    <Throw DisplayName="Throw Business Exception" Exception="[New BusinessRuleException(&quot;Attach browser process in the TableAction module has failed&quot;)]" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="Throw_5" />
+                  </Sequence>
+                </ActivityAction>
+              </Catch>
+              <Catch x:TypeArguments="ui:BusinessRuleException" sap:VirtualizedContainerService.HintSize="1946,22" sap2010:WorkflowViewState.IdRef="Catch`1_3">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <ActivityAction x:TypeArguments="ui:BusinessRuleException">
+                  <ActivityAction.Argument>
+                    <DelegateInArgument x:TypeArguments="ui:BusinessRuleException" Name="exception" />
+                  </ActivityAction.Argument>
+                  <Sequence sap2010:Annotation.AnnotationText="Rethrowing the thrown exception in the try block" DisplayName="Rethrowing Exception" sap:VirtualizedContainerService.HintSize="376,308" sap2010:WorkflowViewState.IdRef="Sequence_10">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_14" Level="Error" Message="[exception.Message]" />
+                    <Rethrow DisplayName="Rethrow Exception" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="Rethrow_1" />
+                  </Sequence>
+                </ActivityAction>
+              </Catch>
+            </TryCatch.Catches>
+          </TryCatch>
+        </Sequence>
+      </TryCatch.Try>
+      <TryCatch.Catches>
+        <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="2026,22" sap2010:WorkflowViewState.IdRef="Catch`1_5">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+              <x:Boolean x:Key="IsPinned">False</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <ActivityAction x:TypeArguments="s:Exception">
+            <ActivityAction.Argument>
+              <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+            </ActivityAction.Argument>
+            <Sequence sap2010:Annotation.AnnotationText="Throws an exception if the table action was not successful" DisplayName="Throwing Exception" sap:VirtualizedContainerService.HintSize="376,308" sap2010:WorkflowViewState.IdRef="Sequence_14">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_18" Level="Error" Message="[&quot;TableAction module has failed&quot;]" />
+              <Throw DisplayName="Throw Business Exception" Exception="[New BusinessRuleException(&quot;TableAction module has failed&quot;)]" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="Throw_8" />
+            </Sequence>
+          </ActivityAction>
+        </Catch>
+        <Catch x:TypeArguments="ui:BusinessRuleException" sap:VirtualizedContainerService.HintSize="2026,22" sap2010:WorkflowViewState.IdRef="Catch`1_6">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+              <x:Boolean x:Key="IsPinned">False</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <ActivityAction x:TypeArguments="ui:BusinessRuleException">
+            <ActivityAction.Argument>
+              <DelegateInArgument x:TypeArguments="ui:BusinessRuleException" Name="exception" />
+            </ActivityAction.Argument>
+            <Sequence sap2010:Annotation.AnnotationText="Rethrowing the thrown exception in the try block" DisplayName="Rethrowing Exception" sap:VirtualizedContainerService.HintSize="376,308" sap2010:WorkflowViewState.IdRef="Sequence_15">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_19" Level="Error" Message="[exception.Message]" />
+              <Rethrow DisplayName="Rethrow Exception" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="Rethrow_2" />
+            </Sequence>
+          </ActivityAction>
+        </Catch>
+      </TryCatch.Catches>
+    </TryCatch>
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="2060,93" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;TableAction module has ended&quot;]" />
+  </Sequence>
+</Activity>

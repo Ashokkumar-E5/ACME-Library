@@ -1,0 +1,912 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="Pagination" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property sap2010:Annotation.AnnotationText="ACME work item browser tab" Name="AcmeBrowserTab" Type="InArgument(ui:Browser)">
+      <x:Property.Attributes>
+        <RequiredArgumentAttribute />
+      </x:Property.Attributes>
+    </x:Property>
+    <x:Property sap2010:Annotation.AnnotationText="ACME page action (Previous/ Next/ Specific)" Name="PageAction" Type="InArgument(x:String)">
+      <x:Property.Attributes>
+        <RequiredArgumentAttribute />
+      </x:Property.Attributes>
+    </x:Property>
+    <x:Property sap2010:Annotation.AnnotationText="Page number to navigate on ACME work item" Name="PageNumber" Type="InArgument(x:Int32)" />
+    <x:Property sap2010:Annotation.AnnotationText="Specified ACME page exist or not" Name="IsPageExist" Type="OutArgument(x:Boolean)" />
+  </x:Members>
+  <mva:VisualBasic.Settings>
+    <x:Null />
+  </mva:VisualBasic.Settings>
+  <sap:VirtualizedContainerService.HintSize>1450,5638</sap:VirtualizedContainerService.HintSize>
+  <sap2010:WorkflowViewState.IdRef>Pagination_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <scg:List x:TypeArguments="x:String" Capacity="28">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>System.Reflection</x:String>
+      <x:String>System.Runtime.InteropServices</x:String>
+      <x:String>UiPath.UIAutomationCore.Contracts</x:String>
+      <x:String>UiPath.UIAutomationNext.Enums</x:String>
+      <x:String>System.Activities.DynamicUpdate</x:String>
+    </scg:List>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="54">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization</AssemblyReference>
+      <AssemblyReference>System.Reflection.Metadata</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationCore</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationNext</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>Microsoft.Bcl.AsyncInterfaces</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
+      <AssemblyReference>NPOI</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities.Design</AssemblyReference>
+    </scg:List>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence sap2010:Annotation.AnnotationText="ACME pagination to move to,&#xA;1. Previous work item page&#xA;2. Next work item page&#xA;3. Specific work item page." DisplayName="ACME Pagination" sap:VirtualizedContainerService.HintSize="1460,5533" sap2010:WorkflowViewState.IdRef="Sequence_29">
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+        <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="1418,91" sap2010:WorkflowViewState.IdRef="LogMessage_13" Level="Info" Message="[&quot;ACME pagination process started.&quot;]" />
+    <TryCatch sap2010:Annotation.AnnotationText="Overall try catch for ACME pagination." DisplayName="Try Catch - ACME Work Item Pagination" sap:VirtualizedContainerService.HintSize="1418,5107" sap2010:WorkflowViewState.IdRef="TryCatch_8">
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+      <TryCatch.Try>
+        <Sequence sap2010:Annotation.AnnotationText="Move to the specified page, else throw failed to visit the specified page." DisplayName="ACME Work Item Pagination" sap:VirtualizedContainerService.HintSize="1380,4827" sap2010:WorkflowViewState.IdRef="Sequence_27">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <If sap2010:Annotation.AnnotationText="If ACME browser tab and page action is not null,&#xA;then navigate to the specified page, else throw invalid pagination input." Condition="[Not IsNothing(AcmeBrowserTab) AndAlso Not String.IsNullOrEmpty(PageAction) AndAlso Not String.IsNullOrWhiteSpace(PageAction)]" DisplayName="Check Valid Pagination Input" sap:VirtualizedContainerService.HintSize="1338,476" sap2010:WorkflowViewState.IdRef="If_5">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <If.Then>
+              <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_14" Level="Trace" Message="[&quot;ACME work item pagination input is valid.&quot;]" />
+            </If.Then>
+            <If.Else>
+              <Sequence sap2010:Annotation.AnnotationText="Throws invalid ACME work item pagination inputs." DisplayName="Throw Invalid Page Action" sap:VirtualizedContainerService.HintSize="376,276" sap2010:WorkflowViewState.IdRef="Sequence_12">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_15" Level="Error" Message="[&quot;ACME work item pagination input is invalid.&quot;]" />
+                <Throw DisplayName="Throw Business Exception" Exception="[New BusinessRuleException(&quot;ACME work item pagination input is invalid.&quot;)]" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="Throw_7" />
+              </Sequence>
+            </If.Else>
+          </If>
+          <TryCatch sap2010:Annotation.AnnotationText="Attach the ACME work item browser tab, if exception occurs then throws failed to attach ACME browser." DisplayName="Try Catch - Attach ACME Work Item Browser Tab" sap:VirtualizedContainerService.HintSize="1338,4188" sap2010:WorkflowViewState.IdRef="TryCatch_7">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <TryCatch.Try>
+              <ui:BrowserScope BrowserType="{x:Null}" SearchScope="{x:Null}" Selector="{x:Null}" TimeoutMS="{x:Null}" UiBrowser="{x:Null}" sap2010:Annotation.AnnotationText="Attach the ACME work item browser tab, &#xA;navigate to previous or next page if the page action is not specific, else navigate to specified page number." Browser="[AcmeBrowserTab]" DisplayName="Attach ACME Work Item Browser" sap:VirtualizedContainerService.HintSize="1300,3908" sap2010:WorkflowViewState.IdRef="BrowserScope_2">
+                <ui:BrowserScope.Body>
+                  <ActivityAction x:TypeArguments="x:Object">
+                    <ActivityAction.Argument>
+                      <DelegateInArgument x:TypeArguments="x:Object" Name="ContextTarget" />
+                    </ActivityAction.Argument>
+                    <Sequence sap2010:Annotation.AnnotationText="Navigate to the page based on the page action, and return the specified page exist." DisplayName="ACME Pagination" sap:VirtualizedContainerService.HintSize="1266,3758" sap2010:WorkflowViewState.IdRef="Sequence_25">
+                      <Sequence.Variables>
+                        <Variable x:TypeArguments="x:Boolean" Name="IsValidAcmeWorkItemPage" />
+                        <Variable x:TypeArguments="x:Boolean" Name="IsPageActionButtonExist" />
+                        <Variable x:TypeArguments="x:Int32" Name="PreviousPageNumber" />
+                        <Variable x:TypeArguments="x:Int32" Name="CurrentPageNumber" />
+                        <Variable x:TypeArguments="x:Int32" Name="IsValidExitPage" />
+                      </Sequence.Variables>
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="1224,91" sap2010:WorkflowViewState.IdRef="LogMessage_16" Level="Trace" Message="[&quot;ACME work item page attached successfully for pagination.&quot;]" />
+                      <ui:UiElementExists sap2010:Annotation.AnnotationText="Check page number buttons exist in the visited ACME work item webpage." DisplayName="Check Work Item Page Number Exist" Exists="[IsValidAcmeWorkItemPage]" sap:VirtualizedContainerService.HintSize="1224,128" sap2010:WorkflowViewState.IdRef="UiElementExists_3">
+                        <ui:UiElementExists.Target>
+                          <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="bf962bb0-f09c-41a1-9627-87c66fb6007a" Selector="&lt;webctrl tag='DIV' innertext='*Search Results*work items*' /&gt;">
+                            <ui:Target.TimeoutMS>
+                              <InArgument x:TypeArguments="x:Int32" />
+                            </ui:Target.TimeoutMS>
+                            <ui:Target.WaitForReady>
+                              <InArgument x:TypeArguments="ui:WaitForReady" />
+                            </ui:Target.WaitForReady>
+                          </ui:Target>
+                        </ui:UiElementExists.Target>
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                      </ui:UiElementExists>
+                      <If sap2010:Annotation.AnnotationText="Check the visited ACME work item page is valid or not." Condition="[IsValidAcmeWorkItemPage]" DisplayName="Check Valid ACME Work Item Page" sap:VirtualizedContainerService.HintSize="1224,464" sap2010:WorkflowViewState.IdRef="If_6">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <If.Then>
+                          <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_17" Level="Trace" Message="[&quot;Visited the valid ACME work item page.&quot;]" />
+                        </If.Then>
+                        <If.Else>
+                          <Sequence sap2010:Annotation.AnnotationText="Throws visited a invalid ACME work item page." DisplayName="Throw Invalid ACME Work Item Page" sap:VirtualizedContainerService.HintSize="376,276" sap2010:WorkflowViewState.IdRef="Sequence_13">
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                            <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_18" Level="Error" Message="[&quot;Visited a invalid ACME work item page.&quot;]" />
+                            <Throw DisplayName="Throw Business Exception" Exception="[new BusinessRuleException(&quot;Visited a invalid ACME work item page.&quot;)]" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="Throw_8" />
+                          </Sequence>
+                        </If.Else>
+                      </If>
+                      <Switch x:TypeArguments="x:String" sap2010:Annotation.AnnotationText="Below page action will be performed based on the PageAction input,&#xA;1. Next Page&#xA;2. Previous Page&#xA;3. Specific Page" DisplayName="Switch - Page Action" Expression="[PageAction.ToLower.Trim]" sap:VirtualizedContainerService.HintSize="1224,2832" sap2010:WorkflowViewState.IdRef="Switch`1_1">
+                        <Switch.Default>
+                          <Sequence sap2010:Annotation.AnnotationText="Throw invalid page action to perform" DisplayName="Throw Invalid Page Action" sap:VirtualizedContainerService.HintSize="376,276" sap2010:WorkflowViewState.IdRef="Sequence_24">
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                            <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_24" Level="Error" Message="[&quot;ACME work item page action &quot; + PageAction + &quot; is invalid.&quot;]" />
+                            <Throw DisplayName="Throw Business Exception" Exception="[New BusinessRuleException(&quot;ACME work item page action &quot; + PageAction + &quot; is invalid.&quot;)]" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="Throw_13" />
+                          </Sequence>
+                        </Switch.Default>
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <Sequence x:Key="next" sap2010:Annotation.AnnotationText="Navigate to next page of ACME work item." DisplayName="Navigate To Next Page" sap:VirtualizedContainerService.HintSize="1184,2271" sap2010:WorkflowViewState.IdRef="Sequence_16">
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                              <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                              <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                          <ui:UiElementExists sap2010:Annotation.AnnotationText="Check next page button exist in ACME work item page." DisplayName="Next Page Button Exist" Exists="[IsPageActionButtonExist]" sap:VirtualizedContainerService.HintSize="1142,117" sap2010:WorkflowViewState.IdRef="UiElementExists_4">
+                            <ui:UiElementExists.Target>
+                              <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="9044677b-9894-41a7-8332-ff4209fb4f04" Selector="&lt;webctrl aaname='&amp;gt;' tag='A' /&gt;" WaitForReady="COMPLETE">
+                                <ui:Target.TimeoutMS>
+                                  <InArgument x:TypeArguments="x:Int32" />
+                                </ui:Target.TimeoutMS>
+                              </ui:Target>
+                            </ui:UiElementExists.Target>
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                          </ui:UiElementExists>
+                          <If sap2010:Annotation.AnnotationText="If page navigate button exist, then click the button, else assign IsPageExist to false." Condition="[IsPageActionButtonExist]" DisplayName="Check Page Action Button" sap:VirtualizedContainerService.HintSize="1142,1991" sap2010:WorkflowViewState.IdRef="If_7">
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                            <If.Then>
+                              <TryCatch sap2010:Annotation.AnnotationText="Click the next page on ACME work item webpage." DisplayName="Try Catch - Click Next Page" sap:VirtualizedContainerService.HintSize="835,1803" sap2010:WorkflowViewState.IdRef="TryCatch_4">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                                <TryCatch.Try>
+                                  <Sequence sap2010:Annotation.AnnotationText="Click the next page button, and assign page exist to True." DisplayName="Click Page Action Button" sap:VirtualizedContainerService.HintSize="797,1545" sap2010:WorkflowViewState.IdRef="Sequence_14">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                        <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                    <ui:GetAttribute ContinueOnError="{x:Null}" sap2010:Annotation.AnnotationText="Get the current page number before navigating to next page." Attribute="aaname" DisplayName="Get Current Page Number" sap:VirtualizedContainerService.HintSize="755,224" sap2010:WorkflowViewState.IdRef="GetAttribute_2">
+                                      <ui:GetAttribute.Result>
+                                        <OutArgument x:TypeArguments="x:Int32">[PreviousPageNumber]</OutArgument>
+                                      </ui:GetAttribute.Result>
+                                      <ui:GetAttribute.Target>
+                                        <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="5fc25820-7fb9-4206-be45-fa8b0b801856" Selector="&lt;webctrl tag='DIV' innertext='*Search Results*work items*' /&gt;&lt;webctrl tag='A' class='page-numbers current' /&gt;">
+                                          <ui:Target.TimeoutMS>
+                                            <InArgument x:TypeArguments="x:Int32" />
+                                          </ui:Target.TimeoutMS>
+                                          <ui:Target.WaitForReady>
+                                            <InArgument x:TypeArguments="ui:WaitForReady" />
+                                          </ui:Target.WaitForReady>
+                                        </ui:Target>
+                                      </ui:GetAttribute.Target>
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                    </ui:GetAttribute>
+                                    <ui:Click AlterIfDisabled="{x:Null}" DelayBefore="{x:Null}" DelayMS="{x:Null}" SendWindowMessages="{x:Null}" sap2010:Annotation.AnnotationText="Click next page button in ACME work item." ClickType="CLICK_SINGLE" DisplayName="Click Next Page" sap:VirtualizedContainerService.HintSize="755,117" sap2010:WorkflowViewState.IdRef="Click_2" KeyModifiers="None" MouseButton="BTN_LEFT" SimulateClick="True">
+                                      <ui:Click.CursorPosition>
+                                        <ui:CursorPosition Position="Center">
+                                          <ui:CursorPosition.OffsetX>
+                                            <InArgument x:TypeArguments="x:Int32" />
+                                          </ui:CursorPosition.OffsetX>
+                                          <ui:CursorPosition.OffsetY>
+                                            <InArgument x:TypeArguments="x:Int32" />
+                                          </ui:CursorPosition.OffsetY>
+                                        </ui:CursorPosition>
+                                      </ui:Click.CursorPosition>
+                                      <ui:Click.Target>
+                                        <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="0f6e849c-8218-48a5-97a3-a55ccab875db" Selector="&lt;webctrl aaname='&amp;gt;' tag='A' /&gt;" WaitForReady="COMPLETE">
+                                          <ui:Target.TimeoutMS>
+                                            <InArgument x:TypeArguments="x:Int32" />
+                                          </ui:Target.TimeoutMS>
+                                        </ui:Target>
+                                      </ui:Click.Target>
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                    </ui:Click>
+                                    <Assign sap2010:Annotation.AnnotationText="Navigated page exist." DisplayName="Assign Page Exist" sap:VirtualizedContainerService.HintSize="755,91" sap2010:WorkflowViewState.IdRef="Assign_4">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Boolean">[IsPageExist]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                      </Assign.Value>
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                    </Assign>
+                                    <ui:GetAttribute ContinueOnError="{x:Null}" sap2010:Annotation.AnnotationText="Get the current page number after navigating to next page." Attribute="aaname" DisplayName="Get Current Page Number" sap:VirtualizedContainerService.HintSize="755,224" sap2010:WorkflowViewState.IdRef="GetAttribute_7">
+                                      <ui:GetAttribute.Result>
+                                        <OutArgument x:TypeArguments="x:Int32">[CurrentPageNumber]</OutArgument>
+                                      </ui:GetAttribute.Result>
+                                      <ui:GetAttribute.Target>
+                                        <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="5fc25820-7fb9-4206-be45-fa8b0b801856" Selector="&lt;webctrl tag='DIV' innertext='*Search Results*work items*' /&gt;&lt;webctrl tag='A' class='page-numbers current' /&gt;">
+                                          <ui:Target.TimeoutMS>
+                                            <InArgument x:TypeArguments="x:Int32" />
+                                          </ui:Target.TimeoutMS>
+                                          <ui:Target.WaitForReady>
+                                            <InArgument x:TypeArguments="ui:WaitForReady" />
+                                          </ui:Target.WaitForReady>
+                                        </ui:Target>
+                                      </ui:GetAttribute.Target>
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                    </ui:GetAttribute>
+                                    <Assign sap2010:Annotation.AnnotationText="Difference of previous page number and current page number" DisplayName="Assign Valid Exit Page" sap:VirtualizedContainerService.HintSize="755,102" sap2010:WorkflowViewState.IdRef="Assign_14">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Int32">[IsValidExitPage]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Int32">[PreviousPageNumber - CurrentPageNumber]</InArgument>
+                                      </Assign.Value>
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                    </Assign>
+                                    <If sap2010:Annotation.AnnotationText="Check difference of previous page number and current page number is -1." Condition="[IsValidExitPage = -1]" DisplayName="Check Valid Exit Page" sap:VirtualizedContainerService.HintSize="755,464" sap2010:WorkflowViewState.IdRef="If_15">
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                      <If.Then>
+                                        <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_38" Level="Trace" Message="[&quot;ACME work item next page navigation successfull.&quot;]" />
+                                      </If.Then>
+                                      <If.Else>
+                                        <Sequence sap2010:Annotation.AnnotationText="Throws visited a invalid ACME work item page." DisplayName="Throw Invalid ACME Work Item Page" sap:VirtualizedContainerService.HintSize="376,276" sap2010:WorkflowViewState.IdRef="Sequence_37">
+                                          <sap:WorkflowViewStateService.ViewState>
+                                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                              <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                            </scg:Dictionary>
+                                          </sap:WorkflowViewStateService.ViewState>
+                                          <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_39" Level="Error" Message="[&quot;ACME work item next page navigation failed.&quot;]" />
+                                          <Throw DisplayName="Throw Business Exception" Exception="[new BusinessRuleException(&quot;ACME work item next page navigation failed.&quot;)]" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="Throw_20" />
+                                        </Sequence>
+                                      </If.Else>
+                                    </If>
+                                  </Sequence>
+                                </TryCatch.Try>
+                                <TryCatch.Catches>
+                                  <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="801,21" sap2010:WorkflowViewState.IdRef="Catch`1_6">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                    <ActivityAction x:TypeArguments="s:Exception">
+                                      <ActivityAction.Argument>
+                                        <DelegateInArgument x:TypeArguments="s:Exception" Name="Exception" />
+                                      </ActivityAction.Argument>
+                                      <Sequence sap2010:Annotation.AnnotationText="Throw failed to click the next page button" DisplayName="Throw Page Click Failed" sap:VirtualizedContainerService.HintSize="376,308" sap2010:WorkflowViewState.IdRef="Sequence_15">
+                                        <sap:WorkflowViewStateService.ViewState>
+                                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                          </scg:Dictionary>
+                                        </sap:WorkflowViewStateService.ViewState>
+                                        <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_19" Level="Error" Message="[Exception.Message]" />
+                                        <Throw DisplayName="Throw Business Exception" Exception="[New BusinessRuleException(&quot;ACME work item next page click failed.&quot;)]" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="Throw_9" />
+                                      </Sequence>
+                                    </ActivityAction>
+                                  </Catch>
+                                </TryCatch.Catches>
+                              </TryCatch>
+                            </If.Then>
+                            <If.Else>
+                              <Assign sap2010:Annotation.AnnotationText="Next page in ACME work item is not exist." DisplayName="Assign Page Exist" sap:VirtualizedContainerService.HintSize="262,91" sap2010:WorkflowViewState.IdRef="Assign_13">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:Boolean">[IsPageExist]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:Boolean">False</InArgument>
+                                </Assign.Value>
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                              </Assign>
+                            </If.Else>
+                          </If>
+                        </Sequence>
+                        <Sequence x:Key="previous" sap2010:Annotation.AnnotationText="Navigate to previous page of ACME work item." DisplayName="Navigate To Previous Page" sap:VirtualizedContainerService.HintSize="1184,2282" sap2010:WorkflowViewState.IdRef="Sequence_19">
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                              <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                              <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                          <ui:UiElementExists sap2010:Annotation.AnnotationText="Check previous page button exist in ACME work item page." DisplayName="Previous Page Button Exist" Exists="[IsPageActionButtonExist]" sap:VirtualizedContainerService.HintSize="1142,128" sap2010:WorkflowViewState.IdRef="UiElementExists_5">
+                            <ui:UiElementExists.Target>
+                              <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="9044677b-9894-41a7-8332-ff4209fb4f04" Selector="&lt;webctrl aaname='&amp;lt;' tag='A' /&gt;" WaitForReady="COMPLETE">
+                                <ui:Target.TimeoutMS>
+                                  <InArgument x:TypeArguments="x:Int32" />
+                                </ui:Target.TimeoutMS>
+                              </ui:Target>
+                            </ui:UiElementExists.Target>
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                          </ui:UiElementExists>
+                          <If sap2010:Annotation.AnnotationText="If page navigate button exist, then click the button, else assign IsPageExist to false." Condition="[IsPageActionButtonExist]" DisplayName="Check Page Action Button" sap:VirtualizedContainerService.HintSize="1142,1991" sap2010:WorkflowViewState.IdRef="If_8">
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                            <If.Then>
+                              <TryCatch sap2010:Annotation.AnnotationText="Click the previous page on ACME work item webpage." DisplayName="Try Catch - Click Previous Page" sap:VirtualizedContainerService.HintSize="835,1803" sap2010:WorkflowViewState.IdRef="TryCatch_5">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                                <TryCatch.Try>
+                                  <Sequence sap2010:Annotation.AnnotationText="Click the previous page button, and assign page exist to True." DisplayName="Click Page Action Button" sap:VirtualizedContainerService.HintSize="797,1545" sap2010:WorkflowViewState.IdRef="Sequence_17">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                        <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                    <ui:GetAttribute ContinueOnError="{x:Null}" sap2010:Annotation.AnnotationText="Get the current page number before navigating to previous page." Attribute="aaname" DisplayName="Get Current Page Number" sap:VirtualizedContainerService.HintSize="755,224" sap2010:WorkflowViewState.IdRef="GetAttribute_4">
+                                      <ui:GetAttribute.Result>
+                                        <OutArgument x:TypeArguments="x:Int32">[PreviousPageNumber]</OutArgument>
+                                      </ui:GetAttribute.Result>
+                                      <ui:GetAttribute.Target>
+                                        <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="5fc25820-7fb9-4206-be45-fa8b0b801856" Selector="&lt;webctrl tag='DIV' innertext='*Search Results*work items*' /&gt;&lt;webctrl tag='A' class='page-numbers current' /&gt;">
+                                          <ui:Target.TimeoutMS>
+                                            <InArgument x:TypeArguments="x:Int32" />
+                                          </ui:Target.TimeoutMS>
+                                          <ui:Target.WaitForReady>
+                                            <InArgument x:TypeArguments="ui:WaitForReady" />
+                                          </ui:Target.WaitForReady>
+                                        </ui:Target>
+                                      </ui:GetAttribute.Target>
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                    </ui:GetAttribute>
+                                    <ui:Click AlterIfDisabled="{x:Null}" DelayBefore="{x:Null}" DelayMS="{x:Null}" SendWindowMessages="{x:Null}" sap2010:Annotation.AnnotationText="Click previous page button in ACME work item." ClickType="CLICK_SINGLE" DisplayName="Click Previous Page" sap:VirtualizedContainerService.HintSize="755,117" sap2010:WorkflowViewState.IdRef="Click_3" KeyModifiers="None" MouseButton="BTN_LEFT" SimulateClick="True">
+                                      <ui:Click.CursorPosition>
+                                        <ui:CursorPosition Position="Center">
+                                          <ui:CursorPosition.OffsetX>
+                                            <InArgument x:TypeArguments="x:Int32" />
+                                          </ui:CursorPosition.OffsetX>
+                                          <ui:CursorPosition.OffsetY>
+                                            <InArgument x:TypeArguments="x:Int32" />
+                                          </ui:CursorPosition.OffsetY>
+                                        </ui:CursorPosition>
+                                      </ui:Click.CursorPosition>
+                                      <ui:Click.Target>
+                                        <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="0f6e849c-8218-48a5-97a3-a55ccab875db" Selector="&lt;webctrl aaname='&amp;lt;' tag='A' /&gt;" WaitForReady="COMPLETE">
+                                          <ui:Target.TimeoutMS>
+                                            <InArgument x:TypeArguments="x:Int32" />
+                                          </ui:Target.TimeoutMS>
+                                        </ui:Target>
+                                      </ui:Click.Target>
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                    </ui:Click>
+                                    <Assign sap2010:Annotation.AnnotationText="Navigated page exist." DisplayName="Assign Page Exist" sap:VirtualizedContainerService.HintSize="755,91" sap2010:WorkflowViewState.IdRef="Assign_6">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Boolean">[IsPageExist]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                      </Assign.Value>
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                    </Assign>
+                                    <ui:GetAttribute ContinueOnError="{x:Null}" sap2010:Annotation.AnnotationText="Get the current page number after navigating to previous page." Attribute="aaname" DisplayName="Get Current Page Number" sap:VirtualizedContainerService.HintSize="755,224" sap2010:WorkflowViewState.IdRef="GetAttribute_8">
+                                      <ui:GetAttribute.Result>
+                                        <OutArgument x:TypeArguments="x:Int32">[CurrentPageNumber]</OutArgument>
+                                      </ui:GetAttribute.Result>
+                                      <ui:GetAttribute.Target>
+                                        <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="5fc25820-7fb9-4206-be45-fa8b0b801856" Selector="&lt;webctrl tag='DIV' innertext='*Search Results*work items*' /&gt;&lt;webctrl tag='A' class='page-numbers current' /&gt;">
+                                          <ui:Target.TimeoutMS>
+                                            <InArgument x:TypeArguments="x:Int32" />
+                                          </ui:Target.TimeoutMS>
+                                          <ui:Target.WaitForReady>
+                                            <InArgument x:TypeArguments="ui:WaitForReady" />
+                                          </ui:Target.WaitForReady>
+                                        </ui:Target>
+                                      </ui:GetAttribute.Target>
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                    </ui:GetAttribute>
+                                    <Assign sap2010:Annotation.AnnotationText="Difference of previous page number and current page number" DisplayName="Assign Valid Exit Page" sap:VirtualizedContainerService.HintSize="755,102" sap2010:WorkflowViewState.IdRef="Assign_15">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Int32">[IsValidExitPage]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Int32">[PreviousPageNumber - CurrentPageNumber]</InArgument>
+                                      </Assign.Value>
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                    </Assign>
+                                    <If sap2010:Annotation.AnnotationText="Check difference of previous page number and current page number is 1." Condition="[IsValidExitPage = 1]" DisplayName="Check Valid Exit Page" sap:VirtualizedContainerService.HintSize="755,464" sap2010:WorkflowViewState.IdRef="If_16">
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                      <If.Then>
+                                        <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_40" Level="Trace" Message="[&quot;ACME work item previous page navigation successfull.&quot;]" />
+                                      </If.Then>
+                                      <If.Else>
+                                        <Sequence sap2010:Annotation.AnnotationText="Throws visited a invalid ACME work item page." DisplayName="Throw Invalid ACME Work Item Page" sap:VirtualizedContainerService.HintSize="376,276" sap2010:WorkflowViewState.IdRef="Sequence_38">
+                                          <sap:WorkflowViewStateService.ViewState>
+                                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                              <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                            </scg:Dictionary>
+                                          </sap:WorkflowViewStateService.ViewState>
+                                          <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_41" Level="Error" Message="[&quot;ACME work item previous page navigation failed.&quot;]" />
+                                          <Throw DisplayName="Throw Business Exception" Exception="[new BusinessRuleException(&quot;ACME work item previous page navigation failed.&quot;)]" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="Throw_21" />
+                                        </Sequence>
+                                      </If.Else>
+                                    </If>
+                                  </Sequence>
+                                </TryCatch.Try>
+                                <TryCatch.Catches>
+                                  <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="801,21" sap2010:WorkflowViewState.IdRef="Catch`1_7">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                    <ActivityAction x:TypeArguments="s:Exception">
+                                      <ActivityAction.Argument>
+                                        <DelegateInArgument x:TypeArguments="s:Exception" Name="Exception" />
+                                      </ActivityAction.Argument>
+                                      <Sequence sap2010:Annotation.AnnotationText="Throw failed to click the previous page button" DisplayName="Throw Page Click Failed" sap:VirtualizedContainerService.HintSize="376,308" sap2010:WorkflowViewState.IdRef="Sequence_18">
+                                        <sap:WorkflowViewStateService.ViewState>
+                                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                          </scg:Dictionary>
+                                        </sap:WorkflowViewStateService.ViewState>
+                                        <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_20" Level="Error" Message="[Exception.Message]" />
+                                        <Throw DisplayName="Throw Business Exception" Exception="[New BusinessRuleException(&quot;ACME work item previous page click failed.&quot;)]" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="Throw_10" />
+                                      </Sequence>
+                                    </ActivityAction>
+                                  </Catch>
+                                </TryCatch.Catches>
+                              </TryCatch>
+                            </If.Then>
+                            <If.Else>
+                              <Assign sap2010:Annotation.AnnotationText="Previous page in ACME work item is not exist." DisplayName="Assign Page Exist" sap:VirtualizedContainerService.HintSize="262,102" sap2010:WorkflowViewState.IdRef="Assign_7">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:Boolean">[IsPageExist]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:Boolean">False</InArgument>
+                                </Assign.Value>
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                              </Assign>
+                            </If.Else>
+                          </If>
+                        </Sequence>
+                        <Sequence x:Key="specific" sap2010:Annotation.AnnotationText="Navigate to specific page of ACME work item by page number." DisplayName="Navigate To Specific Page" sap:VirtualizedContainerService.HintSize="1184,2533" sap2010:WorkflowViewState.IdRef="Sequence_23">
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                              <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                              <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                          <If sap2010:Annotation.AnnotationText="If page number is valid&#xA;then navigate to the specified page, else throw invalid page number." Condition="[PageNumber &gt; 0]" DisplayName="Check Valid Page Number" sap:VirtualizedContainerService.HintSize="1142,475" sap2010:WorkflowViewState.IdRef="If_9">
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                            <If.Then>
+                              <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_21" Level="Trace" Message="[&quot;Valid ACME work item page number input.&quot;]" />
+                            </If.Then>
+                            <If.Else>
+                              <Sequence sap2010:Annotation.AnnotationText="Throws invalid page number argument." DisplayName="Throw Invalid Page Number" sap:VirtualizedContainerService.HintSize="376,276" sap2010:WorkflowViewState.IdRef="Sequence_20">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                                <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_22" Level="Error" Message="[&quot;Invalid ACME work item page number input.&quot;]" />
+                                <Throw DisplayName="Throw Business Exception" Exception="[New BusinessRuleException(&quot;Invalid ACME work item page number input.&quot;)]" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="Throw_11" />
+                              </Sequence>
+                            </If.Else>
+                          </If>
+                          <ui:UiElementExists sap2010:Annotation.AnnotationText="Check given page number button exist in ACME work item page." DisplayName="Page Number Exist" Exists="[IsPageActionButtonExist]" sap:VirtualizedContainerService.HintSize="1142,128" sap2010:WorkflowViewState.IdRef="UiElementExists_6">
+                            <ui:UiElementExists.Target>
+                              <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="9044677b-9894-41a7-8332-ff4209fb4f04" Selector="[String.Format(&quot;&lt;webctrl aaname='{0}' tag='A' /&gt;&quot;, PageNumber)]" WaitForReady="COMPLETE">
+                                <ui:Target.TimeoutMS>
+                                  <InArgument x:TypeArguments="x:Int32" />
+                                </ui:Target.TimeoutMS>
+                              </ui:Target>
+                            </ui:UiElementExists.Target>
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                          </ui:UiElementExists>
+                          <If sap2010:Annotation.AnnotationText="If specified page number button exist, then click the button, else assign IsPageExist to false." Condition="[IsPageActionButtonExist]" DisplayName="Check Page Number Button" sap:VirtualizedContainerService.HintSize="1142,1727" sap2010:WorkflowViewState.IdRef="If_10">
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                            <If.Then>
+                              <TryCatch sap2010:Annotation.AnnotationText="Click the specified page number on ACME work item webpage." DisplayName="Try Catch - Click Page Number" sap:VirtualizedContainerService.HintSize="835,1539" sap2010:WorkflowViewState.IdRef="TryCatch_6">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                                <TryCatch.Try>
+                                  <Sequence sap2010:Annotation.AnnotationText="Click the page number button, and assign page exist to True." DisplayName="Click Page Action Button" sap:VirtualizedContainerService.HintSize="797,1281" sap2010:WorkflowViewState.IdRef="Sequence_21">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                        <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                    <ui:Click AlterIfDisabled="{x:Null}" DelayBefore="{x:Null}" DelayMS="{x:Null}" SendWindowMessages="{x:Null}" sap2010:Annotation.AnnotationText="Click page number button in ACME work item." ClickType="CLICK_SINGLE" DisplayName="Click Page Number" sap:VirtualizedContainerService.HintSize="755,117" sap2010:WorkflowViewState.IdRef="Click_4" KeyModifiers="None" MouseButton="BTN_LEFT" SimulateClick="True">
+                                      <ui:Click.CursorPosition>
+                                        <ui:CursorPosition Position="Center">
+                                          <ui:CursorPosition.OffsetX>
+                                            <InArgument x:TypeArguments="x:Int32" />
+                                          </ui:CursorPosition.OffsetX>
+                                          <ui:CursorPosition.OffsetY>
+                                            <InArgument x:TypeArguments="x:Int32" />
+                                          </ui:CursorPosition.OffsetY>
+                                        </ui:CursorPosition>
+                                      </ui:Click.CursorPosition>
+                                      <ui:Click.Target>
+                                        <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="0f6e849c-8218-48a5-97a3-a55ccab875db" Selector="[String.Format(&quot;&lt;webctrl aaname='{0}' tag='A' /&gt;&quot;, PageNumber)]" WaitForReady="COMPLETE">
+                                          <ui:Target.TimeoutMS>
+                                            <InArgument x:TypeArguments="x:Int32" />
+                                          </ui:Target.TimeoutMS>
+                                        </ui:Target>
+                                      </ui:Click.Target>
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                    </ui:Click>
+                                    <Assign sap2010:Annotation.AnnotationText="Navigated page exist." DisplayName="Assign Page Exist" sap:VirtualizedContainerService.HintSize="755,91" sap2010:WorkflowViewState.IdRef="Assign_8">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Boolean">[IsPageExist]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                      </Assign.Value>
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                    </Assign>
+                                    <ui:GetAttribute ContinueOnError="{x:Null}" sap2010:Annotation.AnnotationText="Get the current page number after navigating to previous page." Attribute="aaname" DisplayName="Get Current Page Number" sap:VirtualizedContainerService.HintSize="755,224" sap2010:WorkflowViewState.IdRef="GetAttribute_9">
+                                      <ui:GetAttribute.Result>
+                                        <OutArgument x:TypeArguments="x:Int32">[CurrentPageNumber]</OutArgument>
+                                      </ui:GetAttribute.Result>
+                                      <ui:GetAttribute.Target>
+                                        <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="5fc25820-7fb9-4206-be45-fa8b0b801856" Selector="&lt;webctrl tag='DIV' innertext='*Search Results*work items*' /&gt;&lt;webctrl tag='A' class='page-numbers current' /&gt;">
+                                          <ui:Target.TimeoutMS>
+                                            <InArgument x:TypeArguments="x:Int32" />
+                                          </ui:Target.TimeoutMS>
+                                          <ui:Target.WaitForReady>
+                                            <InArgument x:TypeArguments="ui:WaitForReady" />
+                                          </ui:Target.WaitForReady>
+                                        </ui:Target>
+                                      </ui:GetAttribute.Target>
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                    </ui:GetAttribute>
+                                    <Assign sap2010:Annotation.AnnotationText="Difference of previous page number and current page number" DisplayName="Assign Valid Exit Page" sap:VirtualizedContainerService.HintSize="755,102" sap2010:WorkflowViewState.IdRef="Assign_16">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Int32">[IsValidExitPage]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Int32">[PageNumber - CurrentPageNumber]</InArgument>
+                                      </Assign.Value>
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                    </Assign>
+                                    <If sap2010:Annotation.AnnotationText="Check difference of previous page number and current page number is 1." Condition="[IsValidExitPage = 0]" DisplayName="Check Valid Exit Page" sap:VirtualizedContainerService.HintSize="755,464" sap2010:WorkflowViewState.IdRef="If_17">
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                      <If.Then>
+                                        <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_42" Level="Trace" Message="[&quot;Successfully navigated to ACME work item page &quot; + PageNumber.ToString]" />
+                                      </If.Then>
+                                      <If.Else>
+                                        <Sequence sap2010:Annotation.AnnotationText="Throws visited a invalid ACME work item page." DisplayName="Throw Invalid ACME Work Item Page" sap:VirtualizedContainerService.HintSize="376,276" sap2010:WorkflowViewState.IdRef="Sequence_39">
+                                          <sap:WorkflowViewStateService.ViewState>
+                                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                              <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                            </scg:Dictionary>
+                                          </sap:WorkflowViewStateService.ViewState>
+                                          <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_43" Level="Error" Message="[&quot;Failed to navigate ACME work item page &quot; + PageNumber.ToString]" />
+                                          <Throw DisplayName="Throw Business Exception" Exception="[new BusinessRuleException(&quot;Failed to navigate ACME work item page &quot; + PageNumber.ToString)]" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="Throw_22" />
+                                        </Sequence>
+                                      </If.Else>
+                                    </If>
+                                  </Sequence>
+                                </TryCatch.Try>
+                                <TryCatch.Catches>
+                                  <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="801,21" sap2010:WorkflowViewState.IdRef="Catch`1_8">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                    <ActivityAction x:TypeArguments="s:Exception">
+                                      <ActivityAction.Argument>
+                                        <DelegateInArgument x:TypeArguments="s:Exception" Name="Exception" />
+                                      </ActivityAction.Argument>
+                                      <Sequence sap2010:Annotation.AnnotationText="Throw failed to click the specified page number button" DisplayName="Throw Page Click Failed" sap:VirtualizedContainerService.HintSize="376,308" sap2010:WorkflowViewState.IdRef="Sequence_22">
+                                        <sap:WorkflowViewStateService.ViewState>
+                                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                          </scg:Dictionary>
+                                        </sap:WorkflowViewStateService.ViewState>
+                                        <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_23" Level="Error" Message="[Exception.Message]" />
+                                        <Throw DisplayName="Throw Business Exception" Exception="[New BusinessRuleException(&quot;ACME work item specific page number click failed.&quot;)]" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="Throw_12" />
+                                      </Sequence>
+                                    </ActivityAction>
+                                  </Catch>
+                                </TryCatch.Catches>
+                              </TryCatch>
+                            </If.Then>
+                            <If.Else>
+                              <Assign sap2010:Annotation.AnnotationText="Previous page in ACME work item is not exist." DisplayName="Assign Page Exist" sap:VirtualizedContainerService.HintSize="262,102" sap2010:WorkflowViewState.IdRef="Assign_9">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:Boolean">[IsPageExist]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:Boolean">False</InArgument>
+                                </Assign.Value>
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                              </Assign>
+                            </If.Else>
+                          </If>
+                        </Sequence>
+                      </Switch>
+                    </Sequence>
+                  </ActivityAction>
+                </ui:BrowserScope.Body>
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+              </ui:BrowserScope>
+            </TryCatch.Try>
+            <TryCatch.Catches>
+              <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="1304,21" sap2010:WorkflowViewState.IdRef="Catch`1_9">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <ActivityAction x:TypeArguments="s:Exception">
+                  <ActivityAction.Argument>
+                    <DelegateInArgument x:TypeArguments="s:Exception" Name="Exception" />
+                  </ActivityAction.Argument>
+                  <Sequence sap2010:Annotation.AnnotationText="Throw attaching the ACME work item browser tab failed." DisplayName="Throw Attach Browser Failed" sap:VirtualizedContainerService.HintSize="376,308" sap2010:WorkflowViewState.IdRef="Sequence_26">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_25" Level="Error" Message="[Exception.Message]" />
+                    <Throw DisplayName="Throw Business Exception" Exception="[New BusinessRuleException(&quot;ACME work item browser tab attach failed in pagination.&quot;)]" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="Throw_14" />
+                  </Sequence>
+                </ActivityAction>
+              </Catch>
+              <Catch x:TypeArguments="ui:BusinessRuleException" sap:VirtualizedContainerService.HintSize="1304,21" sap2010:WorkflowViewState.IdRef="Catch`1_10">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <ActivityAction x:TypeArguments="ui:BusinessRuleException">
+                  <ActivityAction.Argument>
+                    <DelegateInArgument x:TypeArguments="ui:BusinessRuleException" Name="Exception" />
+                  </ActivityAction.Argument>
+                  <Rethrow DisplayName="Rethrow Business Exception" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="Rethrow_3" />
+                </ActivityAction>
+              </Catch>
+            </TryCatch.Catches>
+          </TryCatch>
+        </Sequence>
+      </TryCatch.Try>
+      <TryCatch.Catches>
+        <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="1384,21" sap2010:WorkflowViewState.IdRef="Catch`1_11">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+              <x:Boolean x:Key="IsPinned">False</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <ActivityAction x:TypeArguments="s:Exception">
+            <ActivityAction.Argument>
+              <DelegateInArgument x:TypeArguments="s:Exception" Name="Exception" />
+            </ActivityAction.Argument>
+            <Sequence DisplayName="Throw ACME Pagination Failed" sap:VirtualizedContainerService.HintSize="376,245" sap2010:WorkflowViewState.IdRef="Sequence_28">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_26" Level="Error" Message="[Exception.Message]" />
+              <Throw DisplayName="Throw Business Exception" Exception="[New BusinessRuleException(&quot;ACME pagination process failed.&quot;)]" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="Throw_15" />
+            </Sequence>
+          </ActivityAction>
+        </Catch>
+        <Catch x:TypeArguments="ui:BusinessRuleException" sap:VirtualizedContainerService.HintSize="1384,21" sap2010:WorkflowViewState.IdRef="Catch`1_12">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+              <x:Boolean x:Key="IsPinned">False</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <ActivityAction x:TypeArguments="ui:BusinessRuleException">
+            <ActivityAction.Argument>
+              <DelegateInArgument x:TypeArguments="ui:BusinessRuleException" Name="Exception" />
+            </ActivityAction.Argument>
+            <Rethrow DisplayName="Rethrow Business Exception" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="Rethrow_4" />
+          </ActivityAction>
+        </Catch>
+      </TryCatch.Catches>
+    </TryCatch>
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="1418,91" sap2010:WorkflowViewState.IdRef="LogMessage_27" Level="Info" Message="[&quot;ACME pagination process ended.&quot;]" />
+  </Sequence>
+</Activity>
